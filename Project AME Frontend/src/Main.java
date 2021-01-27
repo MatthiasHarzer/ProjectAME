@@ -4,5 +4,6 @@ public class Main {
 	private static void m() {
 		System.out.println("asdasd");
 		System.out.println("asdasd2222222");
+		System.out.println("asdasd2222222");
 	}
 }

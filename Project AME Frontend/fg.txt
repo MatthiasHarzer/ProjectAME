@@ -1,0 +1,1 @@
+pyinstaller -F --add-data "readdatabasedialog.ui;readdatabasedialog.ui" --add-data "dialog.ui;dialog.ui" --add-data "myDatabase.db;myDatabase.db" --add-data "favicon.png;favicon.png" --add-data "favicon2.png;favicon2.png" combined6v0.py

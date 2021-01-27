@@ -2,12 +2,6 @@
 public class Main {
 	private static int i = 0;
 	private static void m() {
-		System.out.println("asdasd");
-		System.out.println("asdasd2222222");
-		System.out.println("asdasd2222222");
-		System.out.println("pp large funny joke haha stinky poopy");
-		System.out.println("pp large funny joke haha stinky poopy");
-		System.out.println("pp large funny joke haha stinky poopy");
-		System.out.println("pp large funny joke haha stinky poopy");
+
 	}
 }

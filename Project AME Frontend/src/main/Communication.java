@@ -71,11 +71,20 @@ public class Communication {
 	}
 	
 	};
+	}
+	
+	public void connectToServer(String name) throws InterruptedException {
+	
+	Map<String, String> map = new HashMap<>();
+	map.put("type", "connect");
+	map.put("content", name);
 	
 	client.connectBlocking();
-	client.send("Matthias ist gay");
-		
+	client.send(mapToString(map));
+	
 	}
+		
+	
 	
 	
 	public void setUI(UI ui) {
@@ -85,8 +94,12 @@ public class Communication {
 	}
 	
 	public void sendMessage(String message) {
-		if (client != null)	{
+		Map<String, String> map = new HashMap<>();
+		map.put("type", "message");
+		map.put("content", message);
 		
+		if (client != null)	{
+			client.send(mapToString(map));
 		}
 		
 	}

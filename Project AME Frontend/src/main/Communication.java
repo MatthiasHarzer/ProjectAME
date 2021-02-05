@@ -7,7 +7,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.text.SimpleDateFormat;
 import java.util.Base64;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,13 +18,11 @@ import org.java_websocket.drafts.Draft_6455;
 import org.java_websocket.handshake.ServerHandshake;
 
 public class Communication {
-
+ 
 	UI ui;
 	WebSocketClient client;
 	String ip = "ws://85.214.147.14";
 	int port = 5555;
-	
-	private int i = 0;
 	
 	public Communication () throws URISyntaxException, InterruptedException {
 		
@@ -41,9 +41,12 @@ public class Communication {
 	 
 		  switch(map.get("type")) {
 		  	case "message" : 
-		  	ui.displayMessage(map.get("content"), map.get("name"), map.get("time"));	
+		  	String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date(Long.parseLong(map.get("time") ) ) );
+		  	ui.displayMessage(map.get("content"), map.get("name"), timeStamp);	
 		  		break;
 		  }
+	
+		 
 	 
 		
 		

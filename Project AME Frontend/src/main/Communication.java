@@ -1,11 +1,116 @@
 package main;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.java_websocket.client.*;
+import org.java_websocket.drafts.Draft_6455;
+import org.java_websocket.handshake.ServerHandshake;
+
 public class Communication {
 
+	UI ui;
+	WebSocketClient client;
+	String ip = "ws://85.214.147.14";
+	int port = 5555;
+	
 	private int i = 0;
 	
-	public Communication () {
-		System.out.println("Communication has been created");
+	public Communication () throws URISyntaxException, InterruptedException {
+		
+	System.out.println("Communication has been created");
+	
+	client = new WebSocketClient(new URI(ip + ":" + port), new Draft_6455()) {
+	public void onOpen(ServerHandshake serverhandshake) {
+		
 	}
+	
+	public void onMessage(String message) {
+		System.out.println(message);
+	try {
+		Map<String, String> map = stringToMap(message);
+		
+	 
+		  switch(map.get("type")) {
+		  	case "message" : 
+		  	ui.displayMessage(map.get("content"), map.get("name"), map.get("time"));	
+		  		break;
+		  }
+	 
+		
+		
+		
+		
+	} catch (ClassNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}	
+	}
+	
+	public void onClose(int code, String reason, boolean remote) {
+		
+		
+	}
+	
+	public void onError(Exception ex) {
+	ex.printStackTrace();	
+	}
+	
+	};
+	
+	client.connectBlocking();
+	client.send("Matthias ist gay");
+		
+	}
+	
+	
+	public void setUI(UI ui) {
+		
+	this.ui = ui;
+		
+	}
+	
+	public void sendMessage(String message) {
+		if (client != null)	{
+		
+		}
+		
+	}
+	
+	private String mapToString(Map o) {
+	    try {
+	        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+	        ObjectOutputStream oos = new ObjectOutputStream(baos);
+	        oos.writeObject(o);
+	        oos.close();
+	        return Base64.getEncoder().encodeToString(baos.toByteArray());
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        System.exit(320);
+	        return "";
+	    }
+	}
+	private HashMap<String, String> stringToMap(String s) throws IOException,
+	        ClassNotFoundException {
+	    s = s.trim();
+	    byte[] data = Base64.getDecoder().decode(s);
+	    ObjectInputStream ois = new ObjectInputStream(
+	            new ByteArrayInputStream(data));
+	    Object o = ois.readObject();
+	    ois.close();
+	    return (HashMap<String, String>) o;
+	}
+	
 	
 }

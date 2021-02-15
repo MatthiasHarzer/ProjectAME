@@ -15,6 +15,7 @@ import java.util.Map;
 
 import org.java_websocket.client.*;
 import org.java_websocket.drafts.Draft_6455;
+import org.java_websocket.drafts.*;
 import org.java_websocket.handshake.ServerHandshake;
 
 public class Communication {
@@ -80,6 +81,7 @@ public class Communication {
 		
 		@Override
 		public void run() {
+			System.out.println("Hello");
 			try {
 				client.connectBlocking();
 				client.send(mapToString(map));
@@ -92,8 +94,8 @@ public class Communication {
 				
 		}
 	
-	} .start();
-	;
+	}.start();
+	
 	
 	}
 		

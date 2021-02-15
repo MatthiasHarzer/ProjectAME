@@ -1,6 +1,7 @@
 package main;
 
 import java.net.URISyntaxException;
+import org.java_websocket.drafts.*;
 
 public class Main {
 

@@ -12,8 +12,7 @@ public class Main {
 		
 		ui.setCommunication(com);
 		com.setUI(ui);
-		com.connectToServer("Enrico");
-		com.sendMessage("Penis");
+	
 		
 	}
 

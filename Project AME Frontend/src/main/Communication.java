@@ -46,11 +46,7 @@ public class Communication {
 		  		break;
 		  }
 	
-		 
-	 
-		
-		
-		
+		 	
 		
 	} catch (ClassNotFoundException e) {
 		// TODO Auto-generated catch block
@@ -76,15 +72,31 @@ public class Communication {
 	public void connectToServer(String name) throws InterruptedException {
 	
 	Map<String, String> map = new HashMap<>();
+	
 	map.put("type", "connect");
 	map.put("content", name);
 	
-	client.connectBlocking();
-	client.send(mapToString(map));
+	new Thread() {
+		
+		@Override
+		public void run() {
+			try {
+				client.connectBlocking();
+				client.send(mapToString(map));
+				getMessageHistory();
+				
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+				
+		}
+	
+	} .start();
+	;
 	
 	}
 		
-	
 	
 	
 	public void setUI(UI ui) {
@@ -94,7 +106,9 @@ public class Communication {
 	}
 	
 	public void sendMessage(String message) {
+		
 		Map<String, String> map = new HashMap<>();
+		
 		map.put("type", "message");
 		map.put("content", message);
 		
@@ -108,24 +122,52 @@ public class Communication {
 	    try {
 	        ByteArrayOutputStream baos = new ByteArrayOutputStream();
 	        ObjectOutputStream oos = new ObjectOutputStream(baos);
+	        
 	        oos.writeObject(o);
 	        oos.close();
+	        
 	        return Base64.getEncoder().encodeToString(baos.toByteArray());
+	        
 	    } catch (IOException e) {
+	    	
 	        e.printStackTrace();
+	        
 	        System.exit(320);
+	        
 	        return "";
 	    }
 	}
+	
 	private HashMap<String, String> stringToMap(String s) throws IOException,
 	        ClassNotFoundException {
+		
 	    s = s.trim();
+	    
 	    byte[] data = Base64.getDecoder().decode(s);
+	    
 	    ObjectInputStream ois = new ObjectInputStream(
 	            new ByteArrayInputStream(data));
+	    
 	    Object o = ois.readObject();
+	    
 	    ois.close();
+	    
 	    return (HashMap<String, String>) o;
+	}
+	
+	public void getMessageHistory() {
+		
+		long from = System.currentTimeMillis();
+		long to = from - (6*30*24*60*60*1000);
+		
+		Map <String, String> map = new HashMap<>();
+		
+		map.put("type", "request_message_history");
+		map.put("content", "");
+		map.put("from", from + "");
+		map.put("to", to + "");
+		
+		client.send(mapToString(map));
 	}
 	
 	

@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.java_websocket.client.*;
@@ -44,6 +45,18 @@ public class Communication {
 		  	case "message" : 
 		  	String timeStamp = new SimpleDateFormat("HH:mm").format(new Date(Long.parseLong(map.get("time") ) ) );
 		  	ui.displayMessage(map.get("content"), map.get("name"), timeStamp);	
+		  		break;
+		  	case "message_history" : 
+		  		List<Map<String, String>> message_history = stringToList(map.get("content"));
+		  		
+		  		for (int i = 0; i < message_history.size(); i++) {
+		  			
+		  		Map<String, String> m = message_history.get(i);	
+		  		String timeStamp2 = new SimpleDateFormat("HH:mm").format(new Date(Long.parseLong(m.get("time") ) ) );
+		  		ui.displayMessage(m.get("content"), m.get("name"), timeStamp2);
+		  		
+		  		}
+		  
 		  		break;
 		  }
 	
@@ -157,10 +170,27 @@ public class Communication {
 	    return (HashMap<String, String>) o;
 	}
 	
+	private List<Map<String, String>> stringToList(String s) throws IOException,
+    ClassNotFoundException {
+
+s = s.trim();
+
+byte[] data = Base64.getDecoder().decode(s);
+
+ObjectInputStream ois = new ObjectInputStream(
+        new ByteArrayInputStream(data));
+
+Object o = ois.readObject();
+
+ois.close();
+
+return (List<Map<String, String>>) o;
+}
+	
 	public void getMessageHistory() {
 		
 		long from = System.currentTimeMillis();
-		long to = from - (6*30*24*60*60*1000);
+		long to = from - (6L*30L*24L*60L*60L*1000L);
 		
 		Map <String, String> map = new HashMap<>();
 		

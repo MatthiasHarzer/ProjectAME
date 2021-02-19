@@ -94,13 +94,19 @@ public class UI {
 		if(e.getSource().equals(send)) {
 			String content = textfield.getText();
 			this.displayMessage(content, this.name, "6:90 am");
+			com.sendMessage(content);
 		}
 		if(e.getSource().equals(submit)) {
 			namefield.setVisible(false);
 			namepls.setVisible(false);
 			submit.setVisible(false);
 			this.name = namefield.getText();
-			//com.connectToServer(name);
+			try {
+				com.connectToServer(name);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 	}
 	
@@ -109,7 +115,7 @@ public class UI {
 			b_ActionPerformed(e);
 		}
 	}
-	
+	 
 	
 	public class Message{
 		

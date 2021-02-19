@@ -42,7 +42,7 @@ public class Communication {
 	 
 		  switch(map.get("type")) {
 		  	case "message" : 
-		  	String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date(Long.parseLong(map.get("time") ) ) );
+		  	String timeStamp = new SimpleDateFormat("HH:mm").format(new Date(Long.parseLong(map.get("time") ) ) );
 		  	ui.displayMessage(map.get("content"), map.get("name"), timeStamp);	
 		  		break;
 		  }

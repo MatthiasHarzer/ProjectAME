@@ -93,7 +93,7 @@ public class UI {
 	public void b_ActionPerformed(ActionEvent e) {
 		if(e.getSource().equals(send)) {
 			String content = textfield.getText();
-			this.displayMessage(content, this.name, "6:90 am");
+			//this.displayMessage(content, this.name, "6:90 am");
 			com.sendMessage(content);
 		}
 		if(e.getSource().equals(submit)) {

@@ -53,7 +53,7 @@ public class Communication {
 		  			
 		  		Map<String, String> m = message_history.get(i);	
 		  		String timeStamp2 = new SimpleDateFormat("HH:mm").format(new Date(Long.parseLong(m.get("time") ) ) );
-		  		ui.displayMessage(m.get("content"), m.get("name"), timeStamp2);
+		  		ui.displayMessage(m.get("content"), m.get("author"), timeStamp2);
 		  		
 		  		}
 		  

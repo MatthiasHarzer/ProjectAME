@@ -34,6 +34,7 @@ public class Communication {
 	String ip = "ws://85.214.147.14";
 	int port = 5555;
 	
+	private String myName;
 	private JSONObject data = new JSONObject();
 	private String myid;
 	private final String fileName = "data.json";
@@ -49,7 +50,7 @@ public class Communication {
 			}
 			
 			public void onMessage(String message) {
-				System.out.println(message);
+				//System.out.println(message);
 			try {
 				Map<String, String> map = stringToMap(message);
 				
@@ -58,7 +59,7 @@ public class Communication {
 						connected = true;
 						myid = map.get("content");
 						try {
-							writeData(myid);
+							writeData("id",myid);
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -110,15 +111,36 @@ public class Communication {
             myid = data.getString("id");
 
             System.out.println("Read: " + myid);
+            
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
+        
+        try {
+            myName = data.getString("name");
+
+            System.out.println("Read: " + myName);
+            
+           
+            
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+        
 	}
 	
 	public void connectToServer(String name) throws InterruptedException {	
-		Map<String, String> map = new HashMap<>();		
+		Map<String, String> map = new HashMap<>();	
+		try {
+			writeData("name",name);
+		} catch (IOException | JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		if(myid != null) {
 			map.put("type", "connect_with_id");
 			map.put("id", myid);
@@ -144,7 +166,13 @@ public class Communication {
 	}
 		
 	public void setUI(UI ui) {
-		this.ui = ui;		
+		this.ui = ui;
+		
+		if(myName != null) {
+			
+		ui.setDisplayName(myName);
+		
+		}
 	}
 	
 	public void sendMessage(String message) {
@@ -247,14 +275,14 @@ public class Communication {
         return new JSONObject(stringBuilder.toString());
     }
 
-    public void writeData(String id) throws IOException, JSONException {
-        System.out.println("Trying to write: " + id);
+    public void writeData(String key, String value) throws IOException, JSONException {
+       // System.out.println("Trying to write: " + id);
         File jsonFile = new File(filePath, fileName);
 
         jsonFile.createNewFile();
 
         //data.put("name", name);
-        data.put("id", id);
+        data.put(key, value);
 
         String userString = data.toString();
 

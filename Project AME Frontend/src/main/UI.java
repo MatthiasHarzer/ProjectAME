@@ -3,6 +3,8 @@ package main;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -10,7 +12,7 @@ import javax.swing.*;
 import java.util.List;
 
 
-public class UI {
+public class UI implements KeyListener{
  
 	public int mesposition = 600;
 	public String state = "entername", name = "Name";
@@ -21,7 +23,8 @@ public class UI {
 	JFrame frame = new JFrame("Project AME");
 	JLabel background = new JLabel(new ImageIcon("background.png"));
 	JLabel layer3 = new JLabel(new ImageIcon("layer3.png"));
-	TextField textfield = new TextField("Message Content");
+	
+	TextField textfield = new TextField("");
 	TextField namefield = new TextField(name);
 	JLabel namepls = new JLabel(new ImageIcon("namepls.png"));
 	
@@ -48,6 +51,7 @@ public class UI {
 		frame.add(namefield);
 		frame.setComponentZOrder(namefield, 1);
 		namefield.setBounds(375, 350, 250, 50);
+		namefield.addKeyListener(this);
 		
 		frame.add(namepls);
 		frame.setComponentZOrder(namepls, 2);
@@ -61,10 +65,14 @@ public class UI {
 		frame.add(textfield);
 		frame.setComponentZOrder(textfield, 4);
 		textfield.setBounds(50, 650, 800, 50);
+		textfield.addKeyListener(this);
+		
 		
 		frame.add(layer3);
 		frame.setComponentZOrder(layer3, 5);
 		layer3.setBounds(0, 0, 1000, 750);
+		
+		
 		
 		frame.add(background);
 		frame.setComponentZOrder(background, 6);
@@ -107,6 +115,7 @@ public class UI {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			this.state = "default";
 		}
 	}
 	
@@ -117,14 +126,27 @@ public class UI {
 	}
 	 
 	
+	
 	public class Message{
 		
 		JLabel mes;
+		JLabel emoji1 = new JLabel(new ImageIcon("haha.png"));
 		
-		public Message(String content, String name, String time) {
+		private boolean isemoji = false;
 		
-			this.mes = new JLabel("it's " + time + " and " +name + " says:  " + content);
+		public Message(String contentt, String name, String time) {
 			
+			if(contentt == "haha") {
+				contentt = " ";
+				frame.add(emoji1);
+				frame.setComponentZOrder(emoji1, 6);
+				emoji1.setBounds(250, 600, 50, 50);
+				isemoji = true;
+				this.mes = new JLabel("it's " + time + " and " +name + " says:  " + contentt);
+			} else {
+			
+			this.mes = new JLabel("it's " + time + " and " +name + " says:  " + contentt);
+			}
 			frame.add(mes);
 			frame.setComponentZOrder(mes, 6);
 			this.mes.setBounds(50,600,700,50);
@@ -133,8 +155,55 @@ public class UI {
 		
 		public void move(){
 			mes.setLocation(50, mes.getY()-50);
+			if (isemoji == true) {
+				emoji1.setLocation(250, emoji1.getY()-50);
+			}
 		}
 		
+		
+	}
+
+
+	@Override
+	public void keyPressed(KeyEvent e1) {
+		// TODO Auto-generated method stub
+		int key = e1.getKeyCode();
+		if(key == KeyEvent.VK_ENTER) {
+			
+			if(this.state == "default") {
+				String content = textfield.getText();
+				com.sendMessage(content);
+			}
+			
+			if(this.state == "entername"){
+				namefield.setVisible(false);
+				namepls.setVisible(false);
+				submit.setVisible(false);
+				this.name = namefield.getText();
+				try {
+					com.connectToServer(name);
+				} catch (InterruptedException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				this.state = "default";
+			}
+			
+				
+			}
+		
+	}
+
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void keyTyped(KeyEvent arg1) {
 		
 	}
 }

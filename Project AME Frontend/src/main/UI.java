@@ -130,23 +130,23 @@ public class UI implements KeyListener{
 	public class Message{
 		
 		JLabel mes;
-		JLabel emoji1 = new JLabel(new ImageIcon("haha.png"));
+		//JLabel emoji1 = new JLabel(new ImageIcon("haha.png"));
 		
-		private boolean isemoji = false;
+		//private boolean isemoji = false;
 		
 		public Message(String contentt, String name, String time) {
 			
-			if(contentt == "haha") {
-				contentt = " ";
-				frame.add(emoji1);
-				frame.setComponentZOrder(emoji1, 6);
-				emoji1.setBounds(250, 600, 50, 50);
-				isemoji = true;
-				this.mes = new JLabel("it's " + time + " and " +name + " says:  " + contentt);
-			} else {
+			//if(contentt == "haha") {
+				//contentt = " ";
+				//frame.add(emoji1);
+				//frame.setComponentZOrder(emoji1, 6);
+				//emoji1.setBounds(250, 600, 50, 50);
+				//isemoji = true;
+				//this.mes = new JLabel("it's " + time + " and " +name + " says:  " + contentt);
+			//} else {
 			
 			this.mes = new JLabel("it's " + time + " and " +name + " says:  " + contentt);
-			}
+			//}
 			frame.add(mes);
 			frame.setComponentZOrder(mes, 6);
 			this.mes.setBounds(50,600,700,50);
@@ -155,9 +155,9 @@ public class UI implements KeyListener{
 		
 		public void move(){
 			mes.setLocation(50, mes.getY()-50);
-			if (isemoji == true) {
-				emoji1.setLocation(250, emoji1.getY()-50);
-			}
+			//if (isemoji == true) {
+			//	emoji1.setLocation(250, emoji1.getY()-50);
+			//}
 		}
 		
 		

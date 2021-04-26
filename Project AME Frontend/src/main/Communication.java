@@ -32,7 +32,7 @@ public class Communication {
 	UI ui;
 	WebSocketClient client;
 	String ip = "ws://85.214.147.14";
-	int port = 5555;
+	int port = 5555;				
 	
 	private String myName;
 	private JSONObject data = new JSONObject();
@@ -41,7 +41,7 @@ public class Communication {
 	private final String filePath = System.getProperty("user.dir");
 	public boolean connected = false;
 	
-	public Communication () throws URISyntaxException, InterruptedException {
+	public Communication () throws URISyntaxException, InterruptedException {		//Es wird eine Verbindung unter den Kommunikationspartnern hergestellt	
 		System.out.println("Communication has been created");
 		
 		client = new WebSocketClient(new URI(ip + ":" + port), new Draft_6455()) {
@@ -49,12 +49,12 @@ public class Communication {
 				
 			}
 			
-			public void onMessage(String message) {
+			public void onMessage(String message) {					//Die Eigenschaften einer Nachricht werden festgesetzt
 				//System.out.println(message);
 			try {
 				Map<String, String> map = stringToMap(message);
 				
-				switch(map.get("type")) {
+				switch(map.get("type")) {					//Wenn man mit dem Server verbunden ist, wird die Nachricht angezeigt
 					case "connect_id":
 						connected = true;
 						myid = map.get("content");
@@ -66,13 +66,13 @@ public class Communication {
 						}
 						break;
 				  	case "message" : 
-					  	String timeStamp = new SimpleDateFormat("HH:mm").format(new Date(Long.parseLong(map.get("time") ) ) );
+					  	String timeStamp = new SimpleDateFormat("HH:mm").format(new Date(Long.parseLong(map.get("time") ) ) );		//Die Uhrzeit, wann die Nachricht gesendet wurde, soll angezeigt werden
 					  	ui.displayMessage(map.get("content"), map.get("name"), timeStamp);	
 				  		break;
 				  	case "message_history" : 
 				  		List<Map<String, String>> message_history = stringToList(map.get("content"));
 				  		
-				  		for (int i = 0; i < message_history.size(); i++) {
+				  		for (int i = 0; i < message_history.size(); i++) {				//Die Nachrichten der letzten 6 Monate und deren Autor werden angezeigt
 					  		Map<String, String> m = message_history.get(i);	
 					  		String timeStamp2 = new SimpleDateFormat("HH:mm").format(new Date(Long.parseLong(m.get("time") ) ) );
 					  		ui.displayMessage(m.get("content"), m.get("author"), timeStamp2);				  		
@@ -99,7 +99,7 @@ public class Communication {
 		};
 		
 		try {
-            data = getDataFromFile();
+            data = getDataFromFile();		//Verusuche Daten aus einer Datei zu lesen, damit der Server einen wiedererkennt 
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
@@ -108,9 +108,9 @@ public class Communication {
             e.printStackTrace();
         }
         try {
-            myid = data.getString("id");
+            myid = data.getString("id");			//Jeder User bekommt eine eigene ID
 
-            System.out.println("Read: " + myid);
+            System.out.println("Read: " + myid);	//Die ID wird dem User in der Konsole angezeigt
             
         } catch (JSONException e) {
             e.printStackTrace();
@@ -119,7 +119,7 @@ public class Communication {
         }
         
         try {
-            myName = data.getString("name");
+            myName = data.getString("name");			//Der Nutzername wird in der Konsole angezeigt
 
             System.out.println("Read: " + myName);
             
@@ -133,7 +133,7 @@ public class Communication {
         
 	}
 	
-	public void connectToServer(String name) throws InterruptedException {	
+	public void connectToServer(String name) throws InterruptedException {		//Der User wird mit dem Server über seinen Usernamen verbunden
 		Map<String, String> map = new HashMap<>();	
 		try {
 			writeData("name",name);
@@ -141,13 +141,13 @@ public class Communication {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		if(myid != null) {
+		if(myid != null) {					//Hat man eine ID, wird man mit dem Server verbunden
 			map.put("type", "connect_with_id");
 			map.put("id", myid);
 		}else {
 			map.put("type", "connect");
 		}		
-		map.put("content", name);		
+		map.put("content", name);		//			
 		
 		new Thread() {			
 			@Override
@@ -165,7 +165,7 @@ public class Communication {
 		}.start();
 	}
 		
-	public void setUI(UI ui) {
+	public void setUI(UI ui) {		//Die Benutzeroberfläche zeigt den Usernamen an
 		this.ui = ui;
 		
 		if(myName != null) {
@@ -175,7 +175,7 @@ public class Communication {
 		}
 	}
 	
-	public void sendMessage(String message) {
+	public void sendMessage(String message) {		//Nachrichten können versendet werden
 		
 		Map<String, String> map = new HashMap<>();
 		
@@ -188,7 +188,7 @@ public class Communication {
 		
 	}
 	
-	private String mapToString(Map o) {
+	private String mapToString(Map o) {		
 	    try {
 	        ByteArrayOutputStream baos = new ByteArrayOutputStream();
 	        ObjectOutputStream oos = new ObjectOutputStream(baos);
@@ -242,19 +242,19 @@ public class Communication {
 		return (List<Map<String, String>>) o;
 }
 	
-	public void getMessageHistory() {
+	public void getMessageHistory() {				//Die Nachrichten der letzten 6 Monate werden gespeichert
 		
-		long from = System.currentTimeMillis();
-		long to = from - (6L*30L*24L*60L*60L*1000L);
+		long from = System.currentTimeMillis();								
+		long to = from - (6L*30L*24L*60L*60L*1000L); 		
 		
 		Map <String, String> map = new HashMap<>();
 		
-		map.put("type", "request_message_history");
+		map.put("type", "request_message_history");		//Die Nachrichten der lezten Monate werden angezeigt
 		map.put("content", "");
 		map.put("from", from + "");
 		map.put("to", to + "");
 		
-		client.send(mapToString(map));
+		client.send(mapToString(map));			
 	}
 	
 	private JSONObject getDataFromFile() throws IOException, JSONException {

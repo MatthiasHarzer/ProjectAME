@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Color;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,11 +29,11 @@ public class UI implements KeyListener{
 	TextField namefield = new TextField(name);
 	JLabel namepls = new JLabel(new ImageIcon("namepls.png"));
 	
-	JLabel settingslabel = new JLabel(new ImageIcon("settings.png"));
+	//JLabel sendlabel = new JLabel(new ImageIcon("submittexture.png"));
 	
-	JButton send = new JButton("Send");
-	JButton submit = new JButton("Submit");
-	JButton settings = new JButton("Settings");
+	JButton send = new JButton(new ImageIcon("sendtexture.png"));
+	JButton submit = new JButton(new ImageIcon("submittexture.png"));
+	//JButton settings = new JButton(new ImageIcon("settingstexture.png"));
 	
 	JScrollPane scrollpane = new JScrollPane();
 	
@@ -50,56 +51,54 @@ public class UI implements KeyListener{
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		
-		//scrollpane.setViewportView(background);
-		//.setLocation(100, 100);
 		
-		//frame.add(scrollpane);
-		//frame.setComponentZOrder(scrollpane, 1);
-		
-		settings.setBounds(830, 50, 100, 50);
-		frame.add(settings);
-		frame.setComponentZOrder(settings, 0);
-		settings.addActionListener(al1);
-		
-		frame.add(settingslabel);
-		settingslabel.setBounds(0, 0, 1000, 750);
-		frame.setComponentZOrder(settingslabel, 1);
-		settingslabel.setVisible(false);
-		
+		//sendlabel.setBounds(850, 650, 164, 97);
+		//frame.add(sendlabel);
+		//frame.setComponentZOrder(sendlabel, 0);
 		
 		submit.setBounds(450, 400, 100, 50);
 		frame.add(submit);
-		frame.setComponentZOrder(submit, 2);
+		frame.setComponentZOrder(submit, 0);
 		submit.addActionListener(al1);
 		
+		//settings.setBounds(830, 50, 100, 50);
+		//frame.add(settings);
+		//frame.setComponentZOrder(settings, 1);
+		//settings.addActionListener(al1);
+		
+		
 		frame.add(namefield);
-		frame.setComponentZOrder(namefield, 3);
+		frame.setComponentZOrder(namefield, 1);
+		namefield.setForeground(Color.white);
+		namefield.setBackground(new Color(48,49,54));
 		namefield.setBounds(375, 350, 250, 50);
 		namefield.addKeyListener(this);
 		
 		frame.add(namepls);
-		frame.setComponentZOrder(namepls, 4);
+		frame.setComponentZOrder(namepls, 2);
 		namepls.setBounds(350, 250, 300, 225);
 		
 		send.setBounds(850, 650, 100, 50);
 		frame.add(send);
-		frame.setComponentZOrder(send, 5);
+		frame.setComponentZOrder(send, 3);
 		send.addActionListener(al1);
 		
 		frame.add(textfield);
-		frame.setComponentZOrder(textfield, 6);
+		frame.setComponentZOrder(textfield, 4);
+		textfield.setForeground(Color.white);
+		textfield.setBackground(new Color(48,49,54));
 		textfield.setBounds(50, 650, 800, 50);
 		textfield.addKeyListener(this);
 		
 		
 		frame.add(layer3);
-		frame.setComponentZOrder(layer3, 7);
+		frame.setComponentZOrder(layer3, 5);
 		layer3.setBounds(0, 0, 1000, 750);
 		
 		
 		
 		frame.add(background);
-		frame.setComponentZOrder(background, 8);
+		frame.setComponentZOrder(background, 6);
 		background.setBounds(0, 0, 1000, 750);
 		
 		
@@ -143,20 +142,25 @@ public class UI implements KeyListener{
 			this.state = "default";
 		}
 		
-		if(e.getSource().equals(settings)) {
-			if(state.equals("default")) {
-				
-				settingslabel.setVisible(true);
-				state = "settings";
-			}
-			if(state.equals("settings")) {
-				
-				settingslabel.setVisible(false);
-				state = "default";
-			}
+		//if(e.getSource().equals(settings)) {
+			
+			//if(!state.equals("entername")) {
+				//if(state.equals("settings")) {
+					
+					//settingslabel.setVisible(false);
+					//state = "default";
+				//} else {
+					
+					//settingslabel.setVisible(true);
+					//state = "settings";
+					
+				//}
+			//}
 			
 			
-		}
+			
+			
+		//}
 		
 	}
 	
@@ -186,16 +190,21 @@ public class UI implements KeyListener{
 			if(contentt.length()>0 && contentt.equals("haha")) {
 				contentt = " ";
 				frame.add(emoji1);
-				frame.setComponentZOrder(emoji1, 8);
+				frame.setComponentZOrder(emoji1, 6);
 				emoji1.setBounds(250, 600, 50, 50);
 				isemoji = true;
 				this.mes = new JLabel("it's " + time + " and " +name + " says:  " + contentt);
 			} else {
 			
 			this.mes = new JLabel("it's " + time + " and " +name + " says:  " + contentt);
+			
 			}
 			frame.add(mes);
-			frame.setComponentZOrder(mes, 8);
+			//mes.setBackground(Color.white);
+			//mes.setOpaque(true);
+			mes.setForeground(Color.white);
+			
+			frame.setComponentZOrder(mes, 7);
 			this.mes.setBounds(50,600,700,50);
 			
 		}
@@ -213,6 +222,13 @@ public class UI implements KeyListener{
 	public void setDisplayName(String name) {
 		
 		namefield.setText(name);
+		
+	}
+	
+	
+	public class Settings{
+		
+		
 		
 	}
 	

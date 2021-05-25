@@ -31,7 +31,7 @@ public class Communication {
 
     UI ui;
     WebSocketClient client;
-    String ip = "ws://85.214.147.14";   //IP des Backend Servers
+    String ip = "ws://odroid.treegl.com";   //IP des Backend Servers
     int port = 5555;                    //Port des Backend Servers
 
     private String myName;              //Eigener Name

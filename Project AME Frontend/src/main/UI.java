@@ -12,30 +12,37 @@ import javax.swing.*;
 
 import java.util.List;
 
+import java.util.Random;
 
 public class UI implements KeyListener{
  
-	public int mesposition = 600;
+	
+	
+	public int mesposition = 600, profmode = 1;
+	
 	public String state = "entername", name = "Name";
+	
+	public String[] badwords = {"fuck", "shit", "nigger", "nigga", "slut", "cunt", "Ersch", "Hure", "zipperhead", "Neger", "slut", "faggot", "Schlampe"};
+	
+	public String[] goodwords = {"love", "nice", "gay", "great", "amazing", "cuddle", "family", "pet", "Liebe", "toll", "super", "grandios", "kuscheln", "Famlie", "Haustiere"};
+	
 	public List<Message> messagelist = new ArrayList<>();
 	
 	Communication com;
 		
 	JFrame frame = new JFrame("Project AME");
 	JLabel background = new JLabel(new ImageIcon("background.png"));
-	JLabel layer3 = new JLabel(new ImageIcon("layer3.png"));
+	JLabel layer3 = new JLabel(new ImageIcon("layer3_namepls.png"));
 	
 	TextField textfield = new TextField("");
 	TextField namefield = new TextField(name);
-	JLabel namepls = new JLabel(new ImageIcon("namepls.png"));
-	
-	//JLabel sendlabel = new JLabel(new ImageIcon("submittexture.png"));
 	
 	JButton send = new JButton(new ImageIcon("sendtexture.png"));
 	JButton submit = new JButton(new ImageIcon("submittexture.png"));
-	//JButton settings = new JButton(new ImageIcon("settingstexture.png"));
+	JButton settings = new JButton(new ImageIcon("settingstexture.png"));
+	JButton profanity = new JButton("on");
 	
-	JScrollPane scrollpane = new JScrollPane();
+	JList<JLabel> messagePanel = new JList<JLabel>();
 	
 	ActionListener1 al1 = new ActionListener1();
 	
@@ -51,32 +58,29 @@ public class UI implements KeyListener{
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		
-		
-		//sendlabel.setBounds(850, 650, 164, 97);
-		//frame.add(sendlabel);
-		//frame.setComponentZOrder(sendlabel, 0);
-		
 		submit.setBounds(450, 400, 100, 50);
 		frame.add(submit);
 		frame.setComponentZOrder(submit, 0);
 		submit.addActionListener(al1);
 		
-		//settings.setBounds(830, 50, 100, 50);
-		//frame.add(settings);
-		//frame.setComponentZOrder(settings, 1);
-		//settings.addActionListener(al1);
-		
+		settings.setBounds(830, 50, 100, 50);
+		frame.add(settings);
+		frame.setComponentZOrder(settings, 1);
+		settings.setVisible(false);
+		settings.addActionListener(al1);
 		
 		frame.add(namefield);
-		frame.setComponentZOrder(namefield, 1);
+		frame.setComponentZOrder(namefield, 2);
 		namefield.setForeground(Color.white);
 		namefield.setBackground(new Color(48,49,54));
 		namefield.setBounds(375, 350, 250, 50);
 		namefield.addKeyListener(this);
 		
-		frame.add(namepls);
-		frame.setComponentZOrder(namepls, 2);
-		namepls.setBounds(350, 250, 300, 225);
+		profanity.setBounds(420, 250, 100, 50);
+		frame.add(profanity);
+		frame.setComponentZOrder(profanity, 3);
+		profanity.setVisible(false);
+		profanity.addActionListener(al1);
 		
 		send.setBounds(850, 650, 100, 50);
 		frame.add(send);
@@ -90,11 +94,9 @@ public class UI implements KeyListener{
 		textfield.setBounds(50, 650, 800, 50);
 		textfield.addKeyListener(this);
 		
-		
 		frame.add(layer3);
 		frame.setComponentZOrder(layer3, 5);
 		layer3.setBounds(0, 0, 1000, 750);
-		
 		
 		
 		frame.add(background);
@@ -114,24 +116,27 @@ public class UI implements KeyListener{
 	
 	public void displayMessage(String content, String name, String time) {
 		
+		if(content==null || content.length()<=0) {
+		return;
+		}
 		for(int i=0; i<messagelist.size(); i++) {
 			messagelist.get(i).move();
 		}
 		messagelist.add(new Message(content, name, time));
- 	 //System.out.println("it's " + time + " and " +name + " says:  " + content);
 		
 	}
 	
 	public void b_ActionPerformed(ActionEvent e) {
 		if(e.getSource().equals(send)) {
 			String content = textfield.getText();
-			//this.displayMessage(content, this.name, "6:90 am");
 			com.sendMessage(content);
 		}
 		if(e.getSource().equals(submit)) {
 			namefield.setVisible(false);
-			namepls.setVisible(false);
+			//namepls.setVisible(false);
+			layer3.setIcon(new ImageIcon("layer3.png"));
 			submit.setVisible(false);
+			settings.setVisible(true);
 			this.name = namefield.getText();
 			try {
 				com.connectToServer(name);
@@ -142,25 +147,52 @@ public class UI implements KeyListener{
 			this.state = "default";
 		}
 		
-		//if(e.getSource().equals(settings)) {
+		if(e.getSource().equals(settings)) {
 			
-			//if(!state.equals("entername")) {
-				//if(state.equals("settings")) {
+			
+			if(state.equals("settings")) {
+				
+				layer3.setIcon(new ImageIcon("layer3.png"));
+				state = "default";
 					
-					//settingslabel.setVisible(false);
-					//state = "default";
-				//} else {
-					
-					//settingslabel.setVisible(true);
-					//state = "settings";
-					
-				//}
-			//}
+				profanity.setVisible(false);
+
+				
+			} else {
+				
+				layer3.setIcon(new ImageIcon("layer3_settings.png"));
+				state = "settings";
+				
+				profanity.setVisible(true);
+				
+			}
 			
 			
+		}
+		
+		
+		if(e.getSource().equals(profanity)) {
 			
+			profmode++;
 			
-		//}
+			if (profmode > 2) {
+				profmode = 0;
+			}
+			
+			switch (profmode) {
+			
+			case 0:
+				profanity.setText("off");
+				break;
+			case 1:
+				profanity.setText("on");
+				break;	
+			case 2:
+				profanity.setText("reverse");
+				break;	
+			}
+			
+		}
 		
 	}
 	
@@ -174,37 +206,63 @@ public class UI implements KeyListener{
 	
 	public class Message{
 		
+		int savedx = 0, savedy = 0;
+		
 		JLabel mes;
 		JLabel emoji1 = new JLabel(new ImageIcon("haha.png"));
 		
 		private boolean isemoji = false;
 		
-		public Message(String contentt, String name, String time) {
+		public Message(String content, String name, String time) {
 			
-			if(contentt == null) {
+			if(content == null) {
 				
-				contentt = " ";
+				content = " ";
 				
 			}
 			
-			if(contentt.length()>0 && contentt.equals("haha")) {
-				contentt = " ";
-				frame.add(emoji1);
-				frame.setComponentZOrder(emoji1, 6);
-				emoji1.setBounds(250, 600, 50, 50);
-				isemoji = true;
-				this.mes = new JLabel("it's " + time + " and " +name + " says:  " + contentt);
-			} else {
-			
-			this.mes = new JLabel("it's " + time + " and " +name + " says:  " + contentt);
-			
+			if(content.length()>0) {		//Keine Leere Nachricht? 
+				
+				switch (profmode) {
+				
+				case 1:
+					
+					for(int i = 0; i < badwords.length; i++) {
+						
+						content = content.replaceAll(badwords[i], goodwords[(int) Math.round(Math.random()*(goodwords.length-1))] );
+						
+					}
+					
+				break;	
+					
+				case 2:
+					
+					for(int i = 0; i < goodwords.length; i++) {
+						
+						content = content.replaceAll(goodwords[i], badwords[(int) Math.round(Math.random()*(badwords.length-1))]);
+						
+					}
+					
+				break;	
+				}
+				
+				
+				if (content.equals("haha")) {
+					content = " ";
+					frame.add(emoji1);
+					frame.setComponentZOrder(emoji1, 6);
+					emoji1.setBounds(250, 600, 50, 50);
+					isemoji = true;
+					this.mes = new JLabel("it's " + time + " and " +name + " says:  " + content);
+				} else {
+					this.mes = new JLabel("it's " + time + " and " +name + " says:  " + content);
+				}
+				
 			}
 			frame.add(mes);
-			//mes.setBackground(Color.white);
-			//mes.setOpaque(true);
 			mes.setForeground(Color.white);
 			
-			frame.setComponentZOrder(mes, 7);
+			frame.setComponentZOrder(mes, 6);
 			this.mes.setBounds(50,600,700,50);
 			
 		}
@@ -215,6 +273,7 @@ public class UI implements KeyListener{
 				emoji1.setLocation(250, emoji1.getY()-50);
 			}
 		}
+		
 		
 		
 	}
@@ -246,7 +305,7 @@ public class UI implements KeyListener{
 			
 			if(this.state.equals("entername")){
 				namefield.setVisible(false);
-				namepls.setVisible(false);
+				layer3.setIcon(new ImageIcon("layer3.png"));
 				submit.setVisible(false);
 				this.name = namefield.getText();
 				try {

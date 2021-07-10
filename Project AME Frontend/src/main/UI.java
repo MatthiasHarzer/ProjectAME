@@ -18,13 +18,14 @@ public class UI implements KeyListener{
  
 	
 	
-	public int mesposition = 600, profmode = 1;
+	public int mesposition = 600, profmode = 0;
 	
 	public String state = "entername", name = "Name";
 	
-	public String[] badwords = {"fuck", "shit", "nigger", "nigga", "slut", "cunt", "Ersch", "Hure", "zipperhead", "Neger", "slut", "faggot", "Schlampe"};
-	
-	public String[] goodwords = {"love", "nice", "gay", "great", "amazing", "cuddle", "family", "pet", "Liebe", "toll", "super", "grandios", "kuscheln", "Famlie", "Haustiere"};
+	public String[] badwords_ignorecase = {"(?i)fuck", "(?i)shit", "(?i)nigger", "(?i)nigga", "(?i)slut", "(?i)cunt", "(?i)arsch", "(?i)hure", "(?i)zipperhead", "(?i)neger", "(?i)faggot", "(?i)schlampe", "(?i)schwuchtel", "(?i)trany", "(?i)transe", "(?i)hurensohn"};
+	public String[] badwords = {"fuck", "shit", "Arsch", "Hurensohn", "Schlampe"};
+	public String[] goodwords_ignorecase = {"(?i)love", "(?i)nice", "(?i)gay", "(?i)great", "(?i)amazing", "(?i)cuddle", "(?i)family", "(?i)pet", "(?i)liebe", "(?i)toll", "(?i)super", "(?i)grandios", "(?i)kuscheln", "(?i)familie", "(?i)haustiere", "(?i)herz", "(?i)heart", "(?i)pizza"};
+	public String[] goodwords = {"love", "nice", "gay", "great", "amazing", "cuddle", "family", "pet", "Liebe", "toll", "super", "grandios", "kuscheln", "Familie", "Haustiere", "Herz", "heart", "Pizza"};
 	
 	public List<Message> messagelist = new ArrayList<>();
 	
@@ -40,7 +41,8 @@ public class UI implements KeyListener{
 	JButton send = new JButton(new ImageIcon("sendtexture.png"));
 	JButton submit = new JButton(new ImageIcon("submittexture.png"));
 	JButton settings = new JButton(new ImageIcon("settingstexture.png"));
-	JButton profanity = new JButton("on");
+	JButton profanity = new JButton(new ImageIcon("profanitytexture_on.png"));
+	
 	
 	JList<JLabel> messagePanel = new JList<JLabel>();
 	
@@ -76,31 +78,30 @@ public class UI implements KeyListener{
 		namefield.setBounds(375, 350, 250, 50);
 		namefield.addKeyListener(this);
 		
-		profanity.setBounds(420, 250, 100, 50);
+		profanity.setBounds(1000, 250, 100, 50);
 		frame.add(profanity);
 		frame.setComponentZOrder(profanity, 3);
-		profanity.setVisible(false);
 		profanity.addActionListener(al1);
 		
 		send.setBounds(850, 650, 100, 50);
 		frame.add(send);
-		frame.setComponentZOrder(send, 3);
+		frame.setComponentZOrder(send, 4);
 		send.addActionListener(al1);
 		
 		frame.add(textfield);
-		frame.setComponentZOrder(textfield, 4);
+		frame.setComponentZOrder(textfield, 5);
 		textfield.setForeground(Color.white);
 		textfield.setBackground(new Color(48,49,54));
 		textfield.setBounds(50, 650, 800, 50);
 		textfield.addKeyListener(this);
 		
 		frame.add(layer3);
-		frame.setComponentZOrder(layer3, 5);
+		frame.setComponentZOrder(layer3, 6);
 		layer3.setBounds(0, 0, 1000, 750);
 		
 		
 		frame.add(background);
-		frame.setComponentZOrder(background, 6);
+		frame.setComponentZOrder(background, 7);
 		background.setBounds(0, 0, 1000, 750);
 		
 		
@@ -133,7 +134,6 @@ public class UI implements KeyListener{
 		}
 		if(e.getSource().equals(submit)) {
 			namefield.setVisible(false);
-			//namepls.setVisible(false);
 			layer3.setIcon(new ImageIcon("layer3.png"));
 			submit.setVisible(false);
 			settings.setVisible(true);
@@ -154,8 +154,9 @@ public class UI implements KeyListener{
 				
 				layer3.setIcon(new ImageIcon("layer3.png"));
 				state = "default";
-					
-				profanity.setVisible(false);
+				
+				
+				profanity.setLocation(1000, 250);
 
 				
 			} else {
@@ -163,7 +164,8 @@ public class UI implements KeyListener{
 				layer3.setIcon(new ImageIcon("layer3_settings.png"));
 				state = "settings";
 				
-				profanity.setVisible(true);
+				profanity.setLocation(420, 250);
+
 				
 			}
 			
@@ -179,20 +181,21 @@ public class UI implements KeyListener{
 				profmode = 0;
 			}
 			
+			
 			switch (profmode) {
 			
 			case 0:
-				profanity.setText("off");
+				profanity.setIcon(new ImageIcon("profanitytexture_on.png"));
 				break;
 			case 1:
-				profanity.setText("on");
+				profanity.setIcon(new ImageIcon("profanitytexture_off.png"));
 				break;	
 			case 2:
-				profanity.setText("reverse");
+				profanity.setIcon(new ImageIcon("profanitytexture_reverse.png"));
 				break;	
 			}
 			
-		}
+		} 
 		
 	}
 	
@@ -225,22 +228,20 @@ public class UI implements KeyListener{
 				
 				switch (profmode) {
 				
-				case 1:
+				case 0:
 					
-					for(int i = 0; i < badwords.length; i++) {
+					for(int i = 0; i < badwords_ignorecase.length; i++) {
 						
-						content = content.replaceAll(badwords[i], goodwords[(int) Math.round(Math.random()*(goodwords.length-1))] );
-						
+						content = content.replaceAll(badwords_ignorecase[i], goodwords[(int) Math.round(Math.random()*(goodwords.length-1))] );
 					}
 					
 				break;	
 					
 				case 2:
 					
-					for(int i = 0; i < goodwords.length; i++) {
+					for(int i = 0; i < goodwords_ignorecase.length; i++) {
 						
-						content = content.replaceAll(goodwords[i], badwords[(int) Math.round(Math.random()*(badwords.length-1))]);
-						
+						content = content.replaceAll(goodwords_ignorecase[i], badwords[(int) Math.round(Math.random()*(badwords.length-1))]);
 					}
 					
 				break;	
@@ -250,7 +251,7 @@ public class UI implements KeyListener{
 				if (content.equals("haha")) {
 					content = " ";
 					frame.add(emoji1);
-					frame.setComponentZOrder(emoji1, 6);
+					frame.setComponentZOrder(emoji1, 7);
 					emoji1.setBounds(250, 600, 50, 50);
 					isemoji = true;
 					this.mes = new JLabel("it's " + time + " and " +name + " says:  " + content);
@@ -262,7 +263,7 @@ public class UI implements KeyListener{
 			frame.add(mes);
 			mes.setForeground(Color.white);
 			
-			frame.setComponentZOrder(mes, 6);
+			frame.setComponentZOrder(mes, 7);
 			this.mes.setBounds(50,600,700,50);
 			
 		}

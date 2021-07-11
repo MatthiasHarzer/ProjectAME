@@ -14,16 +14,16 @@ import java.util.List;
 
 public class UI implements KeyListener{		//KeyListener wird implementiert
  
-	public int mesposition = 600, profmode = 0;		//position der ersten Nachricht Standard-Modus des Schimpfwort-Filters
+	private int profmode = 0;		//Standard-Modus des Schimpfwort-Filters
 	
-	public String state = "entername", name = "Name";		//Startzustand des Programmes (Namenseingabe) und Standard-Name
+	private String state = "entername", name = "Name";		//Startzustand des Programmes (Namenseingabe) und Standard-Name
 	
-	public String[] badwords_ignorecase = {"(?i)fuck", "(?i)shit", "(?i)nigger", "(?i)nigga", "(?i)slut", "(?i)cunt", "(?i)arsch", "(?i)hure", "(?i)zipperhead", "(?i)neger", "(?i)faggot", "(?i)schlampe", "(?i)schwuchtel", "(?i)trany", "(?i)transe", "(?i)hurensohn"};		//Schimpfwoerter die herausgefiltert/ersetzt werden (Filter-Modus: on) (Gross-/Kleinschreibung wird ignoriert) 
-	public String[] badwords = {"fuck", "shit", "Arsch", "Hurensohn", "Schlampe"};		//Schimpfwoerter die eingesetzt werden (Filter-Modus: reverse) (enthaellt nur "weniger schlimme" Schimpfwoerter)
-	public String[] goodwords_ignorecase = {"(?i)love", "(?i)nice", "(?i)gay", "(?i)great", "(?i)amazing", "(?i)cuddle", "(?i)family", "(?i)pet", "(?i)liebe", "(?i)toll", "(?i)super", "(?i)grandios", "(?i)kuscheln", "(?i)familie", "(?i)haustiere", "(?i)herz", "(?i)heart", "(?i)pizza"};		//Nette Woerter die herausgefiltert/ersetzt werden (Filter-Modus: reverse) (Gross-/Kleinschreibung wird ignoriert) 
-	public String[] goodwords = {"love", "nice", "gay", "great", "amazing", "cuddle", "family", "pet", "Liebe", "toll", "super", "grandios", "kuscheln", "Familie", "Haustiere", "Herz", "heart", "Pizza"}; //Nette Woerter die eingesetzt werden (Filter-Modus: on)
+	private String[] badwords_ignorecase = {"(?i)fuck", "(?i)shit", "(?i)nigger", "(?i)nigga", "(?i)slut", "(?i)cunt", "(?i)arsch", "(?i)hure", "(?i)zipperhead", "(?i)neger", "(?i)faggot", "(?i)schlampe", "(?i)schwuchtel", "(?i)trany", "(?i)transe", "(?i)hurensohn", "(?i)ass", "(?i)fotze", "(?i)wichser", "(?i)pimmel", "(?i)arse", "(?i)bitch", };		//Schimpfwoerter die herausgefiltert/ersetzt werden (Filter-Modus: on) (Gross-/Kleinschreibung wird ignoriert) 
+	private String[] badwords = {"fuck", "shit", "Arsch", "Hurensohn", "Schlampe", "(?i)Pimmel"};		//Schimpfwoerter die eingesetzt werden (Filter-Modus: reverse) (enthaellt nur "weniger schlimme" Schimpfwoerter)
+	private String[] goodwords_ignorecase = {"(?i)love", "(?i)nice", "(?i)gay", "(?i)great", "(?i)amazing", "(?i)cuddle", "(?i)family", "(?i)pet", "(?i)liebe", "(?i)toll", "(?i)super", "(?i)grandios", "(?i)kuscheln", "(?i)familie", "(?i)haustiere", "(?i)herz", "(?i)heart", "(?i)pizza"};		//Nette Woerter die herausgefiltert/ersetzt werden (Filter-Modus: reverse) (Gross-/Kleinschreibung wird ignoriert) 
+	private String[] goodwords = {"love", "nice", "gay", "great", "amazing", "cuddle", "family", "pet", "Liebe", "toll", "super", "grandios", "kuscheln", "Familie", "Haustiere", "Herz", "heart", "Pizza"}; //Nette Woerter die eingesetzt werden (Filter-Modus: on)
 	
-	public List<Message> messagelist = new ArrayList<>();		//Nachrichtenliste wird angelegt
+	private List<Message> messagelist = new ArrayList<>();		//Nachrichtenliste wird angelegt
 	
 	Communication com;		//Lokales Objekt der Communication Klasse
 		
@@ -138,7 +138,7 @@ public class UI implements KeyListener{		//KeyListener wird implementiert
 	}
 	
 	
-	public void b_ActionPerformed(ActionEvent e) {		//Methode, die vom ActionListener aufgerufen wird
+	private void b_ActionPerformed(ActionEvent e) {		//Methode, die vom ActionListener aufgerufen wird
 		
 		if(e.getSource().equals(send)) {		//Wenn der Sendeknopf geklickt
 			String content = textfield.getText();		//In Textfeld eingegebene Nachricht wird zu String umgewandelt
@@ -257,9 +257,9 @@ public class UI implements KeyListener{		//KeyListener wird implementiert
 			
 	}
 		 
-		
 	
-	public class Message{		//Nachrichtenklasse
+	
+	private class Message{		//Nachrichtenklasse
 			
 		JLabel mes;		//Nachrichten-Label
 		JLabel emoji1 = new JLabel(new ImageIcon("haha.png"));		//Emoji-Label

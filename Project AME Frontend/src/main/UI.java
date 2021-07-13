@@ -19,7 +19,7 @@ public class UI implements KeyListener{		//KeyListener wird implementiert
 	private String state = "entername", name = "Name";		//Startzustand des Programmes (Namenseingabe) und Standard-Name
 	
 	private String[] badwords_ignorecase = {"(?i)fuck", "(?i)shit", "(?i)nigger", "(?i)nigga", "(?i)slut", "(?i)cunt", "(?i)arsch", "(?i)hure", "(?i)zipperhead", "(?i)neger", "(?i)faggot", "(?i)schlampe", "(?i)schwuchtel", "(?i)trany", "(?i)transe", "(?i)ass", "(?i)fotze", "(?i)wichser", "(?i)pimmel", "(?i)arse", "(?i)bitch", "(?i)scheiss", "(?i)scheiﬂ", "(?i)fick"};		//Schimpfwoerter die herausgefiltert/ersetzt werden (Filter-Modus: on) (Gross-/Kleinschreibung wird ignoriert) 
-	private String[] badwords = {"fuck", "shit", "Arsch", "Hurensohn", "Schlampe", "(?i)Pimmel", "Scheisse"};		//Schimpfwoerter die eingesetzt werden (Filter-Modus: reverse) (enthaellt nur "weniger schlimme" Schimpfwoerter)
+	private String[] badwords = {"fuck", "shit", "Arsch", "Hurensohn", "Schlampe", "Pimmel", "Scheisse"};		//Schimpfwoerter die eingesetzt werden (Filter-Modus: reverse) (enthaellt nur "weniger schlimme" Schimpfwoerter)
 	private String[] goodwords_ignorecase = {"(?i)love", "(?i)nice", "(?i)gay", "(?i)great", "(?i)amazing", "(?i)cuddle", "(?i)family", "(?i)pet", "(?i)liebe", "(?i)toll", "(?i)super", "(?i)grandios", "(?i)kuscheln", "(?i)familie", "(?i)haustiere", "(?i)herz", "(?i)heart", "(?i)pizza"};		//Nette Woerter die herausgefiltert/ersetzt werden (Filter-Modus: reverse) (Gross-/Kleinschreibung wird ignoriert) 
 	private String[] goodwords = {"love", "nice", "gay", "great", "amazing", "cuddle", "family", "pet", "Liebe", "toll", "super", "grandios", "kuscheln", "Familie", "Haustiere", "Herz", "heart", "Pizza"}; //Nette Woerter die eingesetzt werden (Filter-Modus: on)
 	
